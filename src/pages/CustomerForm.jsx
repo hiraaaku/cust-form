@@ -27,7 +27,12 @@ const STEPS = [
 
 const JENIS_USAHA = ['Bar', 'Restoran', 'Hotel', 'Karaoke', 'Nightclub', 'Lainnya'];
 const ESTIMASI_ORDER = ['Kurang dari 10 karton', '10–50 karton', '50–100 karton', 'Lebih dari 100 karton'];
-const METODE_BAYAR = ['COD', 'Tempo 7 hari', 'Tempo 14 hari', 'Tempo 30 hari', 'Transfer'];
+// payment categories and sub-options
+const METODE_BAYAR_KATEGORI = ['Tunai', 'Non Tunai'];
+const METODE_BAYAR_SUBS = {
+  Tunai: ['COD', 'CBD'],
+  'Non Tunai': ['TOP 21 hari', 'TOP 30 hari']
+};
 
 export default function CustomerForm() {
   const [step, setStep] = useState(1);
@@ -50,7 +55,8 @@ export default function CustomerForm() {
     hp_pemilik: '',
     email_pemilik: '',
     estimasi_order: '',
-    metode_bayar: '',
+    metode_bayar_kategori: '',
+    metode_bayar_sub: '',
     referensi_distributor: ''
   });
 
@@ -76,14 +82,25 @@ export default function CustomerForm() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    if (errors[name]) {
-      setErrors(prev => {
-        const newErrors = { ...prev };
+    setFormData(prev => {
+      const update = { ...prev, [name]: value };
+      // if category changes, clear the sub-option
+      if (name === 'metode_bayar_kategori') {
+        update.metode_bayar_sub = '';
+      }
+      return update;
+    });
+    setErrors(prev => {
+      const newErrors = { ...prev };
+      if (newErrors[name]) {
         delete newErrors[name];
-        return newErrors;
-      });
-    }
+      }
+      // when category changed we also drop any sub-option error
+      if (name === 'metode_bayar_kategori' && newErrors.metode_bayar_sub) {
+        delete newErrors.metode_bayar_sub;
+      }
+      return newErrors;
+    });
   };
 
   const handleFileChange = (e, key) => {
@@ -117,7 +134,8 @@ export default function CustomerForm() {
       if (!formData.email_pemilik) newErrors.email_pemilik = 'Wajib diisi';
     } else if (step === 3) {
       if (!formData.estimasi_order) newErrors.estimasi_order = 'Wajib diisi';
-      if (!formData.metode_bayar) newErrors.metode_bayar = 'Wajib diisi';
+      if (!formData.metode_bayar_kategori) newErrors.metode_bayar_kategori = 'Wajib diisi';
+      if (!formData.metode_bayar_sub) newErrors.metode_bayar_sub = 'Wajib diisi';
     } else if (step === 4) {
       if (!files.ktp_pemilik) newErrors.ktp_pemilik = 'Wajib diupload';
       if (!files.npwp) newErrors.npwp = 'Wajib diupload';
@@ -387,15 +405,33 @@ export default function CustomerForm() {
                     {errors.estimasi_order && <p className="text-red-500 text-xs">{errors.estimasi_order}</p>}
                   </div>
                   <div className="space-y-1">
-                    <label className="text-sm font-semibold text-slate-700">Metode Pembayaran *</label>
-                    <select 
-                      name="metode_bayar" value={formData.metode_bayar} onChange={handleInputChange}
-                      className={`w-full px-4 py-3 rounded-xl border focus:ring-2 focus:ring-amber-500 outline-none transition-all ${errors.metode_bayar ? 'border-red-500' : 'border-slate-200'}`}
+                    <label className="text-sm font-semibold text-slate-700">Kategori Metode Pembayaran *</label>
+                    <select
+                      name="metode_bayar_kategori"
+                      value={formData.metode_bayar_kategori}
+                      onChange={handleInputChange}
+                      className={`w-full px-4 py-3 rounded-xl border focus:ring-2 focus:ring-amber-500 outline-none transition-all ${errors.metode_bayar_kategori ? 'border-red-500' : 'border-slate-200'}`}
                     >
-                      <option value="">Pilih Metode</option>
-                      {METODE_BAYAR.map(m => <option key={m} value={m}>{m}</option>)}
+                      <option value="">Pilih Kategori</option>
+                      {METODE_BAYAR_KATEGORI.map(k => <option key={k} value={k}>{k}</option>)}
                     </select>
-                    {errors.metode_bayar && <p className="text-red-500 text-xs">{errors.metode_bayar}</p>}
+                    {errors.metode_bayar_kategori && <p className="text-red-500 text-xs">{errors.metode_bayar_kategori}</p>}
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-sm font-semibold text-slate-700">Opsi Metode Pembayaran *</label>
+                    <select
+                      name="metode_bayar_sub"
+                      value={formData.metode_bayar_sub}
+                      onChange={handleInputChange}
+                      disabled={!formData.metode_bayar_kategori}
+                      className={`w-full px-4 py-3 rounded-xl border focus:ring-2 focus:ring-amber-500 outline-none transition-all ${errors.metode_bayar_sub ? 'border-red-500' : 'border-slate-200'} ${!formData.metode_bayar_kategori ? 'bg-slate-100 cursor-not-allowed' : ''}`}
+                    >
+                      <option value="">Pilih Opsi</option>
+                      {formData.metode_bayar_kategori && METODE_BAYAR_SUBS[formData.metode_bayar_kategori].map(o => (
+                        <option key={o} value={o}>{o}</option>
+                      ))}
+                    </select>
+                    {errors.metode_bayar_sub && <p className="text-red-500 text-xs">{errors.metode_bayar_sub}</p>}
                   </div>
                   <div className="sm:col-span-2 space-y-1">
                     <label className="text-sm font-semibold text-slate-700">Referensi Distributor (Opsional)</label>
@@ -523,7 +559,11 @@ export default function CustomerForm() {
                     </div>
                     <div className="p-6 grid grid-cols-2 gap-y-4 gap-x-6 text-sm">
                       <div><p className="text-slate-500">Estimasi Order</p><p className="font-semibold">{formData.estimasi_order}</p></div>
-                      <div><p className="text-slate-500">Metode Bayar</p><p className="font-semibold">{formData.metode_bayar}</p></div>
+                      <div><p className="text-slate-500">Metode Bayar</p><p className="font-semibold">
+                        {formData.metode_bayar_kategori && formData.metode_bayar_sub
+                          ? `${formData.metode_bayar_kategori} / ${formData.metode_bayar_sub}`
+                          : ''}
+                      </p></div>
                     </div>
                   </div>
 

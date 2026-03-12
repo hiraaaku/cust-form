@@ -66,7 +66,11 @@ export const hitungSkor = (formData, files) => {
   const total = Object.values(breakdown).reduce((a, b) => a + b, 0)
 
   let status = 'DITOLAK'
-  if (hardRuleFail.length > 0) {
+
+  // special rule: any Tunai payment category is automatically approved
+  if (formData.metode_bayar_kategori === 'Tunai') {
+    status = 'DISETUJUI'
+  } else if (hardRuleFail.length > 0) {
     status = 'DITOLAK'
   } else if (total >= 70) {
     status = 'DISETUJUI'
@@ -176,7 +180,10 @@ export const submitForm = async (formData, files, onProgress) => {
     hp_pemilik: formData.hp_pemilik,
     email_pemilik: formData.email_pemilik,
     estimasi_order: formData.estimasi_order,
-    metode_bayar: formData.metode_bayar,
+    // combine kategori and sub-option into one string for storage
+    metode_bayar: formData.metode_bayar_kategori
+      ? `${formData.metode_bayar_kategori} - ${formData.metode_bayar_sub}`
+      : formData.metode_bayar || null,
     referensi_distributor: formData.referensi_distributor || null,
     url_ktp_pemilik: urls.ktp_pemilik || null,
     url_npwp: urls.npwp || null,
