@@ -163,6 +163,7 @@ export const submitForm = async (formData, files, onProgress) => {
   const payload = {
     nomor_referensi: nomorReferensi,
     nama_usaha: formData.nama_usaha,
+    nama_pt: formData.nama_pt,
     jenis_usaha: formData.jenis_usaha,
     alamat: formData.alamat,
     kota_provinsi: formData.kota_provinsi,
@@ -173,6 +174,7 @@ export const submitForm = async (formData, files, onProgress) => {
     kapasitas: Number(formData.kapasitas),
     jam_operasional: formData.jam_operasional,
     tahun_berdiri: Number(formData.tahun_berdiri),
+    tukar_faktur: formData.tukar_faktur,
     nama_pemilik: formData.nama_pemilik,
     nik: formData.nik,
     tempat_lahir: formData.tempat_lahir,

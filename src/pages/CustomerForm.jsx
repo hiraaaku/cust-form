@@ -38,6 +38,7 @@ export default function CustomerForm() {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     nama_usaha: '',
+    nama_pt: '',
     jenis_usaha: '',
     alamat: '',
     kota_provinsi: '',
@@ -57,7 +58,8 @@ export default function CustomerForm() {
     estimasi_order: '',
     metode_bayar_kategori: '',
     metode_bayar_sub: '',
-    referensi_distributor: ''
+    referensi_distributor: '',
+    tukar_faktur: ''
   });
 
   const [files, setFiles] = useState({
@@ -114,6 +116,7 @@ export default function CustomerForm() {
     const newErrors = {};
     if (step === 1) {
       if (!formData.nama_usaha) newErrors.nama_usaha = 'Wajib diisi';
+      if (!formData.nama_pt) newErrors.nama_pt = 'Wajib diisi';
       if (!formData.jenis_usaha) newErrors.jenis_usaha = 'Wajib diisi';
       if (!formData.alamat) newErrors.alamat = 'Wajib diisi';
       if (!formData.kota_provinsi) newErrors.kota_provinsi = 'Wajib diisi';
@@ -134,6 +137,7 @@ export default function CustomerForm() {
       if (!formData.email_pemilik) newErrors.email_pemilik = 'Wajib diisi';
     } else if (step === 3) {
       if (!formData.estimasi_order) newErrors.estimasi_order = 'Wajib diisi';
+      if (!formData.tukar_faktur) newErrors.tukar_faktur = 'Wajib diisi';
       if (!formData.metode_bayar_kategori) newErrors.metode_bayar_kategori = 'Wajib diisi';
       if (!formData.metode_bayar_sub) newErrors.metode_bayar_sub = 'Wajib diisi';
     } else if (step === 4) {
@@ -236,6 +240,15 @@ export default function CustomerForm() {
                       placeholder="Contoh: Restoran Bintang Lima"
                     />
                     {errors.nama_usaha && <p className="text-red-500 text-xs">{errors.nama_usaha}</p>}
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-sm font-semibold text-slate-700">Nama PT *</label>
+                    <input 
+                      type="text" name="nama_pt" value={formData.nama_pt} onChange={handleInputChange}
+                      className={`w-full px-4 py-3 rounded-xl border focus:ring-2 focus:ring-amber-500 outline-none transition-all ${errors.nama_pt ? 'border-red-500' : 'border-slate-200'}`}
+                      placeholder="Contoh: PT. Maju Jaya"
+                    />
+                    {errors.nama_pt && <p className="text-red-500 text-xs">{errors.nama_pt}</p>}
                   </div>
                   <div className="space-y-1">
                     <label className="text-sm font-semibold text-slate-700">Jenis Usaha *</label>
@@ -403,6 +416,20 @@ export default function CustomerForm() {
                       {ESTIMASI_ORDER.map(e => <option key={e} value={e}>{e}</option>)}
                     </select>
                     {errors.estimasi_order && <p className="text-red-500 text-xs">{errors.estimasi_order}</p>}
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-sm font-semibold text-slate-700">Tukar Faktur *</label>
+                    <select
+                      name="tukar_faktur"
+                      value={formData.tukar_faktur}
+                      onChange={handleInputChange}
+                      className={`w-full px-4 py-3 rounded-xl border focus:ring-2 focus:ring-amber-500 outline-none transition-all ${errors.tukar_faktur ? 'border-red-500' : 'border-slate-200'}`}
+                    >
+                      <option value="">Pilih</option>
+                      <option value="Ya">Ya</option>
+                      <option value="Tidak">Tidak</option>
+                    </select>
+                    {errors.tukar_faktur && <p className="text-red-500 text-xs">{errors.tukar_faktur}</p>}
                   </div>
                   <div className="space-y-1">
                     <label className="text-sm font-semibold text-slate-700">Kategori Metode Pembayaran *</label>
