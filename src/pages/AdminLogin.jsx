@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { Shield, Loader2, AlertCircle } from 'lucide-react';
+import { Loader2, AlertCircle } from 'lucide-react';
 
 export default function AdminLogin() {
   const [username, setUsername] = useState('');
@@ -39,9 +39,7 @@ export default function AdminLogin() {
       >
         <div className="p-8 sm:p-12">
           <div className="flex flex-col items-center text-center mb-10">
-            <div className="w-16 h-16 bg-amber-100 rounded-2xl flex items-center justify-center mb-4">
-              <Shield className="w-8 h-8 text-amber-600" />
-            </div>
+            <img src="/logo.svg" alt="Logo" className="w-16 h-16 mb-4" />
             <h1 className="text-2xl font-bold text-slate-800">Admin Panel</h1>
             <p className="text-slate-500 mt-1">Masuk untuk kelola data pengajuan</p>
           </div>

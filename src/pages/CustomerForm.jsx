@@ -12,8 +12,7 @@ import {
   X,
   Clock,
   Check,
-  XCircle,
-  Building2
+  XCircle
 } from 'lucide-react';
 import { submitForm } from '../lib/supabase';
 
@@ -185,9 +184,7 @@ export default function CustomerForm() {
       {/* Header */}
       <div className="bg-white border-b">
         <div className="max-w-4xl mx-auto px-4 py-6 flex items-center gap-4">
-          <div className="w-12 h-12 bg-amber-600 rounded-2xl flex items-center justify-center shadow-lg shadow-amber-100">
-            <Building2 className="w-7 h-7 text-white" />
-          </div>
+          <img src="/logo.svg" alt="Logo" className="w-12 h-12" />
           <div>
             <h1 className="text-xl font-bold text-slate-800">Pengajuan Kemitraan</h1>
             <p className="text-sm text-slate-500 font-medium">Lengkapi data untuk bergabung sebagai mitra kami</p>
