@@ -184,7 +184,7 @@ export default function CustomerForm() {
       {/* Header */}
       <div className="bg-white border-b">
         <div className="max-w-4xl mx-auto px-4 py-6 flex items-center gap-4">
-          <img src="/logo.svg" alt="Logo" className="w-12 h-12" />
+          <img src="/page-mcu.jpeg" alt="Logo" className="w-12 h-12" />
           <div>
             <h1 className="text-xl font-bold text-slate-800">Pengajuan Kemitraan</h1>
             <p className="text-sm text-slate-500 font-medium">Lengkapi data untuk bergabung sebagai mitra kami</p>

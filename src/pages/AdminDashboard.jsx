@@ -115,7 +115,7 @@ export default function AdminDashboard() {
       <header className="sticky top-0 z-40 bg-white border-b shadow-sm">
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <img src="/logo.svg" alt="Logo" className="w-10 h-10" />
+            <img src="/page-mcu.jpeg" alt="Logo" className="w-10 h-10" />
             <div>
               <h1 className="text-lg font-bold text-slate-800 leading-none">Admin Panel</h1>
               <p className="text-xs text-slate-500 mt-1">Manajemen Pengajuan Mitra</p>

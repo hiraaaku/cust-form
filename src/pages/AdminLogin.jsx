@@ -39,7 +39,7 @@ export default function AdminLogin() {
       >
         <div className="p-8 sm:p-12">
           <div className="flex flex-col items-center text-center mb-10">
-            <img src="/logo.svg" alt="Logo" className="w-16 h-16 mb-4" />
+            <img src="/page-mcu.jpeg" alt="Logo" className="w-16 h-16 mb-4" />
             <h1 className="text-2xl font-bold text-slate-800">Admin Panel</h1>
             <p className="text-slate-500 mt-1">Masuk untuk kelola data pengajuan</p>
           </div>
