@@ -14,7 +14,7 @@ import {
   Check,
   XCircle
 } from 'lucide-react';
-import { submitForm } from '../lib/supabase';
+import { submitForm } from '../lib/Appsscript';
 
 const STEPS = [
   { id: 1, title: 'Data Usaha' },
